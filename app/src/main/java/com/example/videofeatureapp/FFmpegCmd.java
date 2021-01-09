@@ -17,7 +17,7 @@ import java.util.List;
 public class FFmpegCmd {
 
     static {
-        System.loadLibrary("media-handle");
+        System.loadLibrary("native-lib");
     }
 
     private final static int RESULT_SUCCESS = 1;

@@ -11,6 +11,7 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 # 用allCpp变量去引入cpp下面的所有cpp文件
 file(GLOB allCpp src/main/cpp/*.cpp)
+file(GLOB allC src/main/cpp/*.c)
 add_library( # Sets the name of the library.
         native-lib
 
@@ -18,7 +19,8 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        ${allCpp} )
+        ${allCpp}
+        )
 
 add_library( ijkffmpeg
         SHARED
