@@ -68,7 +68,8 @@ class MainActivity : AppCompatActivity() {
         sample_text?.text = stringFromJNI()
         val transformVideo: String =
             PATH + File.separator + "transformVideo.mp4"
-        val srcFile=PATH + File.separator+"DCIM"+File.separator+"Camera"+ File.separator+"XHS_02730b8cff0e2c6abc49ef22ae783be7.mp4"
+//        val srcFile=PATH + File.separator+"DCIM"+File.separator+"Camera"+ File.separator+"XHS_02730b8cff0e2c6abc49ef22ae783be7.mp4"
+        val srcFile=PATH + File.separator+ File.separator+"keepvideo.mp4"
         val commandLine = FFmpegUtil.transformVideo(srcFile, transformVideo)
         FFmpegHandler(handler).executeFFmpegCmd(commandLine)
     }
