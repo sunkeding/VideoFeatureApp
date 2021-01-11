@@ -105,7 +105,8 @@
 #include "cmdutils.h"
 
 #include "libavutil/avassert.h"
-
+#include "jx_log.h"
+//int JNI_DEBUG= 1;
 const char program_name[] = "ffmpeg";
 const int program_birth_year = 2000;
 
@@ -4756,15 +4757,16 @@ static void log_callback_null(void *ptr, int level, const char *fmt, va_list vl)
 {
 }
 
-int main(int argc, char **argv)
+int run_command(int argc, char **argv)
 {
+    LOGI(JNI_DEBUG, "命令开始");
     int i, ret;
     int64_t ti;
 
     init_dynload();
 
     register_exit(ffmpeg_cleanup);
-
+    LOGI(JNI_DEBUG, "注册清理完成");
     setvbuf(stderr,NULL,_IONBF,0); /* win32 runtime needs this */
 
     av_log_set_flags(AV_LOG_SKIP_REPEATED);
@@ -4781,26 +4783,30 @@ int main(int argc, char **argv)
     avdevice_register_all();
 #endif
     avformat_network_init();
-
+    LOGI(JNI_DEBUG, "注册完成编解码器");
     show_banner(argc, argv, options);
-
+    LOGI(JNI_DEBUG, "注册完成编解码器2");
     /* parse options and open all input/output files */
     ret = ffmpeg_parse_options(argc, argv);
+    LOGI(JNI_DEBUG, "注册完成编解码器3");
     if (ret < 0)
+        LOGI(JNI_DEBUG, "0");
         exit_program(1);
 
     if (nb_output_files <= 0 && nb_input_files == 0) {
+        LOGI(JNI_DEBUG, "1");
         show_usage();
         av_log(NULL, AV_LOG_WARNING, "Use -h to get full help or, even better, run 'man %s'\n", program_name);
         exit_program(1);
     }
-
+    LOGI(JNI_DEBUG, "注册完成编解码器4");
     /* file converter / grab */
     if (nb_output_files <= 0) {
+        LOGI(JNI_DEBUG, "2");
         av_log(NULL, AV_LOG_FATAL, "At least one output file must be specified\n");
         exit_program(1);
     }
-
+    LOGI(JNI_DEBUG, "注册完成编解码器5");
 //     if (nb_input_files == 0) {
 //         av_log(NULL, AV_LOG_FATAL, "At least one input file must be specified\n");
 //         exit_program(1);
@@ -4813,6 +4819,7 @@ int main(int argc, char **argv)
 
     current_time = ti = getutime();
     if (transcode() < 0)
+        LOGI(JNI_DEBUG, "3");
         exit_program(1);
     ti = getutime() - ti;
     if (do_benchmark) {
@@ -4821,8 +4828,10 @@ int main(int argc, char **argv)
     av_log(NULL, AV_LOG_DEBUG, "%"PRIu64" frames successfully decoded, %"PRIu64" decoding errors\n",
            decode_error_stat[0], decode_error_stat[1]);
     if ((decode_error_stat[0] + decode_error_stat[1]) * max_error_rate < decode_error_stat[1])
+        LOGI(JNI_DEBUG, "4");
         exit_program(69);
-
+    LOGI(JNI_DEBUG, "5");
     exit_program(received_nb_signals ? 255 : main_return_code);
+    LOGI(JNI_DEBUG, "命令结束");
     return main_return_code;
 }

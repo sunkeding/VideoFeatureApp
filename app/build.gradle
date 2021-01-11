@@ -53,7 +53,7 @@ android {
     }
     packagingOptions {
 
-        pickFirst 'lib/armeabi-v7a/libijkffmpeg.so'
+        pickFirst '**/*.so'
 
     }
 }
